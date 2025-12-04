@@ -30,6 +30,32 @@ def number4_1():
                     rolls += 1
                 
     print("Day 4-1. The number of rolls accessible are " + str(rolls))
+    
+def number4_2():
+    dataFile = open("data/day4.txt", "r")
+    
+    grid = []
+    for line in dataFile:
+        line = line.replace("\n", "")
+        grid.append(list(line))
+    
+    rolls = 0
+    removed = -1
+    
+    while removed != 0:
+        l_removed = []
+        for i in range(0, len(grid)):
+            for j in range (0, len(grid[i])):
+                if grid[i][j] == ROLL:
+                    if isAccessible(grid, i, j):
+                        l_removed.append((i, j))
+        
+        removed = len(l_removed)
+        rolls += removed
+        for (i, j) in l_removed:
+            grid[i][j] = EMPTY
+    
+    print("Day 4-1. The number of rolls accessible are " + str(rolls))
 
 number4_1()
-        
+number4_2()
