@@ -1,28 +1,6 @@
 import math
 
 distances = dict()
-
-def mergeCircuits(l_circuits):
-    l_aux = []
-    l_aux_2 = l_circuits.copy()
-    added = False 
-    removed = True
-    while removed:
-        l_aux = []
-        removed = False
-        for circuit in l_aux_2:
-            added = False
-            for aux in l_aux:
-                if len(aux & circuit) > 0:
-                    aux.update(circuit)
-                    added = True
-                    removed = True
-                    break
-            if not added:
-                l_aux.append(circuit)
-        l_aux_2 = l_aux.copy()
-        
-    return l_aux
             
 def quick_sort_length(l_circuits):
     if len(l_circuits) <= 1:
@@ -62,7 +40,7 @@ def distance(p1, p2):
     # return math.sqrt(aux)
     return aux
 
-def number8_1(max):
+def number8(max):
     dataFile = open("data/day8.txt", "r")
     
     boxes = []
@@ -73,6 +51,7 @@ def number8_1(max):
         s_line = line.split(",")
         boxes.append(tuple(list(map(int, s_line))))
 
+    # Calculating distances
     l_distances = []
     for i in range(0, len(boxes)):
         box_1 = boxes[i]
@@ -81,34 +60,43 @@ def number8_1(max):
             d = distance(boxes[i], boxes[j])
             l_distances.append((box_1, (box_2, d)))
         
+    # Sorting distances
     l_distances = quick_sort(l_distances)
 
+    # Generating circuits
     l_circuits = []
     for (box_1, (box_2, d)) in l_distances:
         if max == 0:
-            break
+            l_circuits = quick_sort_length(l_circuits) 
+            total = len(l_circuits[0]) * len(l_circuits[1]) * len(l_circuits[2])
+            print("Result day 8_1: " + str(total))
+            max = -1
         else:
-            max -= 1
+            if max > 0:
+                max -= 1
+        
         added = False
         for i in range(0, len(l_circuits)):
             circuit = l_circuits[i]
             if box_1 in circuit or box_2 in circuit:
                 circuit.update({box_1, box_2})
                 added = True
+                for j in range(i + 1, len(l_circuits)): # Looking for merging
+                    circuit_aux = l_circuits[j]
+                    if circuit & circuit_aux: # Intersection
+                        circuit.update(circuit_aux)
+                        circuit_aux.clear()
+                        
+                    # Testing end
+                    if len(circuit) == len(boxes):
+                        print("Result day 8_2: box 1 -> " + str(box_1) + " box 2 -> " + str(box_2) + ". Total x: " + str(box_1[0] * box_2[0]))
+                        return 
+                        
                 break
         if not added:
             l_circuits.append({box_1, box_2})
     
-    
-    l_circuits = mergeCircuits(l_circuits)
-    
-    l_circuits = quick_sort_length(l_circuits) 
-    
-    total = len(l_circuits[0]) * len(l_circuits[1]) * len(l_circuits[2])
-    
-    print("Result day 8_1: " + str(total)) 
-    
-number8_1(1000)
+number8(1000)
         
         
     
