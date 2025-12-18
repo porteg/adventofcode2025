@@ -123,67 +123,7 @@ def segmentCrossHorizontal(p1, p2, h_segments):
             if l_y < y < u_y:
                 return True
     
-    return False
-
-def isHorizontalSegIn(p1, p2, h_segments):
-    (p1_x, p1_y) = p1
-    (p2_x, p2_y) = p2
-    
-    if p1_x > p2_x: #ordering
-        aux = p1_x
-        p1_x = p2_x
-        p2_x = aux
-        
-    count = 0
-    for seg in h_segments:
-        (y, x1, x2) = seg
-        if y == p1_y: # Same y
-            if x1 <= p1_x and p2_x <= x2: # inside
-                return True
-        elif y < p1_y: 
-            if x1 <= p1_x and p2_x <= x2:
-                    count +=1
-        else:
-            if x1 <= p1_x and p2_x <= x2:
-                if count % 2 != 0:
-                    return True
-                else:
-                    return False
-    
-    if count % 2 != 0:
-        return True
-    else:
-        return False                                        
-      
-def isVerticalSegIn(p1, p2, v_segments):
-    (p1_x, p1_y) = p1
-    (p2_x, p2_y) = p2
-    
-    if p1_y > p2_y: # ordering
-        aux = p1_y
-        p1_y = p2_y
-        p2_y = aux
-        
-    count = 0
-    for seg in v_segments:
-        (x, y1, y2) = seg
-        if x == p1_x: # Same x
-            if y1 <= p1_y and p2_y <= y2: # inside
-                return True
-        elif x < p1_x:
-            if y1 <= p1_y and p2_y <= y2:
-                count += 1
-        else: 
-            if y1 <= p1_y and p2_y <= y2:
-                if count % 2 != 0:
-                    return True
-                else:
-                    return False
-    
-    if count % 2 != 0:
-        return True
-    else:
-        return False
+    return False                                   
 
 def area(p1, p2):
     b = abs(p1[0] - p2[0]) + 1
