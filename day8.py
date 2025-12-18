@@ -87,7 +87,7 @@ def number8(max):
                         circuit.update(circuit_aux)
                         circuit_aux.clear()
                         
-                    # Testing end
+                    # Testing the end
                     if len(circuit) == len(boxes):
                         print("Result day 8_2: box 1 -> " + str(box_1) + " box 2 -> " + str(box_2) + ". Total x: " + str(box_1[0] * box_2[0]))
                         return 
