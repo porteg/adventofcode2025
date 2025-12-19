@@ -3,6 +3,10 @@ import heapq
 ON = "#"
 OFF = "."
 
+EXCESS_JOLTAGE = 0
+EQUAL_JOLTAGE  =  1
+LESS_JOLTAGE   = 2
+
 # Dijstra funtion receives visited grid and two points. The last parameter is the 
 # start value for the starting point
 def dijskstra(machine, start, risk = 0):
@@ -48,7 +52,7 @@ def dijskstra(machine, start, risk = 0):
             
     return min_button_pulsed
 
-def number10():
+def number10_1():
     dataFile = open("data/day10.txt", "r")
     
     machines = []
@@ -65,7 +69,7 @@ def number10():
             button = s_line[i][1:-1].split(",")
             buttons.append(list(map(int,button)))
         
-        joltages = s_line[-1][1:-1].split(",")
+        joltages = list(map(int, s_line[-1][1:-1].split(",")))
         
         machines.append([indicator, buttons, joltages])
         
@@ -77,8 +81,7 @@ def number10():
             
         res = dijskstra(machine, start, 0)
         total += res
-        print("Result machine --> " + str(res))
         
-    print("Day 10_1: The total button pressed are " + str(total))
+    print("Day 10_1: The total buttons pressed are " + str(total))
     
-number10()
+number10_1()
