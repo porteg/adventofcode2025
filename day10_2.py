@@ -21,7 +21,7 @@ def number10_2():
         
         machines.append([indicator, buttons, joltages])
         
-    
+    total = 0
     for machine in machines:
         buttons = machine[1]
         joltages = machine[2]
@@ -30,7 +30,7 @@ def number10_2():
         variables = []
         max_value = max(joltages)
         for i in range(0, len(buttons)):
-            aux = LpVariable("x" + str(i), 0, max_value)
+            aux = LpVariable("x" + str(i), 0, None, LpInteger)
             variables.append(aux)
         
         prob = LpProblem("problem", LpMinimize)
@@ -43,12 +43,25 @@ def number10_2():
             for j in range(0, len(buttons)):
                 if i in buttons[j]:
                     aux.append(variables[j])
+            prob += lpSum(aux) >= joltages[i]
+        
+        for i in range(0, len(joltages)):
+            aux = []
+            for j in range(0, len(buttons)):
+                if i in buttons[j]:
+                    aux.append(variables[j])
             prob += lpSum(aux) <= joltages[i]
         
         status = prob.solve(GLPK(msg=0))
         LpStatus[status]
-        
-        x= 1
+
+        total_machine = 0
+        for v in prob.variables():
+            total_machine += int(v.varValue)
+
+        total += total_machine
+
+    print("Day 10 part 2: Number of pulsations " + str(total))
             
     
     
